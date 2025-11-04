@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Familien-Home</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:40px; background:#f4f6fb; color:#222; }
+    .container { max-width:800px; margin:0 auto; background:#fff; padding:24px; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+    header { display:flex; justify-content:space-between; align-items:center; }
+    h1 { margin:0; font-size:24px; }
+    button { background:#e74c3c; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="container" id="content">
+    <header>
+      <h1>Willkommen</h1>
+      <div>
+        <span id="userDisplay"></span>
+        <button id="logoutBtn">Ausloggen</button>
+      </div>
+    </header>
+
+    <hr />
+    <p>Dies ist die Familien-Startseite. Hier könnt ihr Fotos, Termine oder Nachrichten teilen.</p>
+    <p><strong>Tipp:</strong> Für bessere Sicherheit solltest du eine serverseitige Authentifizierung benutzen (z. B. Firebase, Netlify Identity).</p>
+  </div>
+
+  <script>
+    // Schutz: Nur anzeigen, wenn sessionStorage-Flag gesetzt ist
+    const loggedIn = sessionStorage.getItem("familie_logged_in");
+    if (!loggedIn || loggedIn !== "true") {
+      // Nicht eingeloggt → zurück zur Login-Seite
+      window.location.href = "index.html";
+    } else {
+      const user = sessionStorage.getItem("familie_user") || "Gast";
+      document.getElementById("userDisplay").textContent = user + " \u00A0"; // NBSP für Abstand
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("familie_logged_in");
+      sessionStorage.removeItem("familie_user");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
